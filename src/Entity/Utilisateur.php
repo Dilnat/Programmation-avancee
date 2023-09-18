@@ -10,6 +10,8 @@ use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Validator\Constraints as Assert;
 
+#[UniqueEntity('login')]
+#[UniqueEntity('adresseEmail')]
 #[ORM\Entity(repositoryClass: UtilisateurRepository::class)]
 class Utilisateur implements UserInterface, PasswordAuthenticatedUserInterface
 {
@@ -21,7 +23,6 @@ class Utilisateur implements UserInterface, PasswordAuthenticatedUserInterface
     #[Assert\NotNull]
     #[ORM\Column(length: 180, unique: true)]
     #[Assert\Length(min:4, max:20, minMessage: "Il faut au moins 4 caractères", maxMessage: "Il faut au plus 20 caractères")]
-    #[UniqueEntity(message: "Cet attribut n'est pas unique")]
     private ?string $login = null;
 
     #[ORM\Column]
@@ -37,7 +38,6 @@ class Utilisateur implements UserInterface, PasswordAuthenticatedUserInterface
     #[Assert\NotBlank]
     #[Assert\NotNull]
     #[Assert\Email(message:"l'adresse mail n'est pas valide")]
-    #[UniqueEntity(message: "Cet attribut n'est pas unique")]
     private ?string $adresseEmail = null;
 
     #[ORM\Column(type: Types::TEXT, nullable: true)]
