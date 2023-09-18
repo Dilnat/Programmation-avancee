@@ -7,6 +7,8 @@ use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: UtilisateurRepository::class)]
 class Utilisateur implements UserInterface, PasswordAuthenticatedUserInterface
@@ -15,8 +17,11 @@ class Utilisateur implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\GeneratedValue]
     #[ORM\Column]
     private ?int $id = null;
-
+    #[Assert\NotBlank]
+    #[Assert\NotNull]
     #[ORM\Column(length: 180, unique: true)]
+    #[Assert\Length(min:4, max:20, minMessage: "Il faut au moins 4 caractères", maxMessage: "Il faut au plus 20 caractères")]
+    #[UniqueEntity(message: "Cet attribut n'est pas unique")]
     private ?string $login = null;
 
     #[ORM\Column]
@@ -29,6 +34,10 @@ class Utilisateur implements UserInterface, PasswordAuthenticatedUserInterface
     private ?string $password = null;
 
     #[ORM\Column(length: 255, unique:true)]
+    #[Assert\NotBlank]
+    #[Assert\NotNull]
+    #[Assert\Email(message:"l'adresse mail n'est pas valide")]
+    #[UniqueEntity(message: "Cet attribut n'est pas unique")]
     private ?string $adresseEmail = null;
 
     #[ORM\Column(type: Types::TEXT, nullable: true)]
