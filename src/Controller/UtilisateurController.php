@@ -58,4 +58,11 @@ class UtilisateurController extends AbstractController
             "lastusername" => $lastUsername
         ]);
     }
+
+    #[Route('/deconnexion', name: 'deconnexion', methods: ['POST'])]
+    public function deconnexion(): never
+    {
+        //Ne sera jamais appelée
+        throw new \Exception("Cette route n'est pas censée être appelée. Vérifiez security.yaml");
+    }
 }

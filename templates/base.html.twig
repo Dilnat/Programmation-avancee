@@ -15,6 +15,9 @@
             <a href="{{ path('feed') }}">Accueil</a>
             <a href="{{ path('inscription') }}">Inscription</a>
             <a href="{{ path('connexion') }}">Connexion</a>
+            <form method="post" action="{{ path('deconnexion') }}">
+                <button id="btn-deconnexion">Déconnexion</button>
+            </form>
         </nav>
     </div>
 </header>
