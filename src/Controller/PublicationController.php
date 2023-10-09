@@ -13,6 +13,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 // A importer au début da la classe
 use App\Entity\Publication;
+use Symfony\Component\Security\Http\Attribute\IsGranted;
 
 
 class PublicationController extends AbstractController
@@ -32,6 +33,7 @@ class PublicationController extends AbstractController
 
         $form->handleRequest($request);
         if($form->isSubmitted() && $form->isValid()){
+            $this->denyAccessUnlessGranted('ROLE_USER');
             $this->addFlash("success", "Vous message a bien été publié");
             $entityManager->persist($formulaire);
             $entityManager->flush();

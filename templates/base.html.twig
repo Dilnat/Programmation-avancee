@@ -13,11 +13,18 @@
         <a href="{{ path('feed') }}"><span>The Feed</span></a>
         <nav>
             <a href="{{ path('feed') }}">Accueil</a>
-            <a href="{{ path('inscription') }}">Inscription</a>
-            <a href="{{ path('connexion') }}">Connexion</a>
-            <form method="post" action="{{ path('deconnexion') }}">
-                <button id="btn-deconnexion">Déconnexion</button>
-            </form>
+            {% if is_granted('ROLE_USER') %}
+                <!-- Utilisateur connecté -->
+                <form method="post" action="{{ path('deconnexion') }}">
+                    <button id="btn-deconnexion">Déconnexion</button>
+                </form>
+            {% else %}
+                <!-- Utilisateur non connecté -->
+                <a href="{{ path('inscription') }}">Inscription</a>
+                <a href="{{ path('connexion') }}">Connexion</a>
+            {% endif %}
+
+
         </nav>
     </div>
 </header>
