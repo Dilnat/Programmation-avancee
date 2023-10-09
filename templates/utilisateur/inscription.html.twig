@@ -36,7 +36,7 @@
                 {{ form_widget(formulaire.fichierPhotoProfil, {'required' : '', 'attr' : {'accept' : 'image/png, image/jpeg'}}) }}
             </div>
             <!-- Affichage du bouton d'envoi, contenant le texte (label) "S'inscrire" -->
-            {{ form_widget(formulaire.inscription, {"S'inscrire", 'attr': {'class': 'basic-form-submit'}}) }}
+            {{ form_widget(formulaire.inscription, {'attr': {'class': 'basic-form-submit'}, 'label' :"S'inscrire"}) }}
         </fieldset>
         {{ form_rest(formulaire) }}
         {{ form_end(formulaire) }}
