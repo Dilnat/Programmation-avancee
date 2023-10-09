@@ -5,21 +5,44 @@ namespace App\Controller;
 use App\Entity\Utilisateur;
 use App\Form\UtilisateurType;
 use App\Repository\UtilisateurRepository;
+use App\Service\FlashMessageHelperInterface;
+use App\Service\UtilisateurManager;
+use App\Service\UtilisateurManagerInterface;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
 class UtilisateurController extends AbstractController
 {
     #[Route('/inscription', name: 'inscription', methods:["GET", "POST"])]
-    public function inscription(UtilisateurRepository $utilisateurRepository): Response
+    public function inscription(Request $request ,
+                                UtilisateurRepository $utilisateurRepository,
+                                EntityManagerInterface $entityManager,
+                                FlashMessageHelperInterface $flashMessageHelper,
+                                UtilisateurManagerInterface $utilisateurManagerInterface): Response
     {
-        $formulaire = new Utilisateur();
+        $utilisateur = new Utilisateur();
         $form = $this->createForm(UtilisateurType::class,
-        $formulaire, [
+            $utilisateur, [
             'method' => 'POST',
             'action' => $this->generateUrl('inscription')
         ]);
+
+        $form->handleRequest($request);
+        if($form->isSubmitted() && $form->isValid()){
+            $this->addFlash("success", "Inscription réussie");
+            $plainPassword = $form["plainPassword"]->getData();
+            $fichierPhotoProfil = $form["fichierPhotoProfil"]->getData();
+            $utilisateurManagerInterface->processNewUtilisateur($utilisateur, $plainPassword, $fichierPhotoProfil);
+            $entityManager->persist($utilisateur);
+            $entityManager->flush();
+            return $this->redirectToRoute('feed');
+        }
+        else{
+            $flashMessageHelper->addFormErrorsAsFlash($form);
+        }
 
         return $this->render("/utilisateur/inscription.html.twig", [
 //            "utilisateurs" => $utilisateurRepository->findAllOrderedByDate(),
