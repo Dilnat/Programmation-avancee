@@ -18,6 +18,7 @@
                 <form method="post" action="{{ path('deconnexion') }}">
                     <button id="btn-deconnexion">Déconnexion</button>
                 </form>
+                <a href="{{ path('pagePerso', {'login' : utilisateur.login}) }}">Ma page</a>
             {% else %}
                 <!-- Utilisateur non connecté -->
                 <a href="{{ path('inscription') }}">Inscription</a>

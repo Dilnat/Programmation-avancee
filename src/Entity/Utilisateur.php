@@ -46,6 +46,7 @@ class Utilisateur implements UserInterface, PasswordAuthenticatedUserInterface
     private ?string $nomPhotoProfil = null;
 
     #[ORM\OneToMany(mappedBy: 'auteur', targetEntity: Publication::class, orphanRemoval: true)]
+    #[ORM\OrderBy(["datePublication" => "DESC"])]
     private Collection $publications;
 
     public function __construct()

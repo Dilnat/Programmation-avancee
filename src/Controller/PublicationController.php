@@ -48,7 +48,8 @@ class PublicationController extends AbstractController
 
         return $this->render("/publication/feed.html.twig", [
             "publications" => $publicationRepository->findAllOrderedByDate(),
-            "formulaire_publication" => $form
+            "formulaire_publication" => $form,
+            "utilisateur" => $utilisateur
         ]);
     }
 }

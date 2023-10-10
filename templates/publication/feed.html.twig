@@ -29,7 +29,7 @@
             {% for publication in publications %}
                 <div class="feedy">
                     <div class="feedy-header">
-                        <a href="">
+                        <a href="{{ path('pagePerso', {'login' : publication.auteur.login}) }}">
                             <img class="avatar"
                                  {% set photo = (publication.auteur.nomPhotoProfil is null) ? "anonyme.jpg" :  "uploads/" ~ publication.auteur.nomPhotoProfil %}
                                  src="{{ asset("img/utilisateurs/" ~ photo) }}"
