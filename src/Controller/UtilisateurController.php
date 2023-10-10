@@ -24,6 +24,11 @@ class UtilisateurController extends AbstractController
                                 FlashMessageHelperInterface $flashMessageHelper,
                                 UtilisateurManagerInterface $utilisateurManagerInterface): Response
     {
+        //deja connecté
+        if ($this->isGranted('ROLE_USER')){
+            return $this->redirectToRoute('feed');
+        }
+
         $utilisateur = new Utilisateur();
         $form = $this->createForm(UtilisateurType::class,
             $utilisateur, [
@@ -53,6 +58,11 @@ class UtilisateurController extends AbstractController
 
     #[Route('/connexion', name: 'connexion', methods:["GET", "POST"])]
     public function connexion(AuthenticationUtils $authenticationUtils) : Response {
+        //deja connecté
+        if ($this->isGranted('ROLE_USER')){
+            return $this->redirectToRoute('feed');
+        }
+
         $lastUsername = $authenticationUtils->getLastUsername();
         return $this->render('utilisateur/connexion.html.twig', [
             "lastusername" => $lastUsername
