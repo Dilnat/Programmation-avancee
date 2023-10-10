@@ -1,0 +1,45 @@
+{% extends 'base.html.twig' %}
+
+ {% block page_title %}
+     <title>
+         {% if utilisateur is not null %}
+            Page de {{ utilisateur.login }}
+         {% else %}
+             Page inexistante
+         {% endif %}
+     </title>
+ {% endblock %}
+
+ {% block page_content %}
+     <main>
+         <div class="center">
+             <p id="titre-page-perso">
+                 {% if utilisateur is not null %}
+                     Page de {{ utilisateur.login }}
+                 {% endif %}</p>
+         </div>
+         <div id="feed">
+             {% if utilisateur is not null %}
+                 {% set publications = utilisateur.getPublications %}
+                 {% for publication in publications %}
+                     <div class="feedy">
+                         <div class="feedy-header">
+                             <a href="">
+                                 <img class="avatar"
+                                         {% set photo = (publication.auteur.nomPhotoProfil is null) ? "anonyme.jpg" :  "uploads/" ~ publication.auteur.nomPhotoProfil %}
+                                      src="{{ asset("img/utilisateurs/" ~ photo) }}"
+                                      alt="avatar de l'utilisateur">
+                             </a>
+                             <div class="feedy-info">
+                                 <span>{{ publication.auteur.login }}</span>
+                                 <span> - </span>
+                                 <span>{{ publication.datePublication|date("d/m/Y") }}</span>
+                                 <p>{{ publication.message }}</p>
+                             </div>
+                         </div>
+                     </div>
+                 {% endfor %}
+             {% endif %}
+         </div>
+     </main>
+ {% endblock %}

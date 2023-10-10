@@ -18,4 +18,10 @@ class FlashMessageHelper implements FlashMessageHelperInterface
         }
         //Ajouts des erreurs du formulaire comme messages flash de la catégorie "error".
     }
+
+    public function addErrorsAsFlash($errorMsg): void
+    {
+        $flashBag = $this->requestStack->getSession()->getFlashBag();
+        $flashBag->add("error", $errorMsg);
+    }
 }
