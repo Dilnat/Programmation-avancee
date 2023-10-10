@@ -8,22 +8,22 @@
 
             {% if is_granted('ROLE_USER') %}
                 <!-- Génération de la balise <form>, possédant un id (HTML) "feedy-new" -->
-                {{ form_start(formulaire, {'attr' : {'id' : 'feedy-new'}}) }}
+                {{ form_start(formulaire_publication, {'attr' : {'id' : 'feedy-new'}}) }}
                 <fieldset>
                     <legend>Nouveau feedy</legend>
                     <div>
                         <!-- Le textarea généré, avec le placeholder "Qu'avez-vous en tête?" -->
-                        {{ form_widget(formulaire.message, {'attr' : {"placeholder" : "Qu'avez-vous en tête?"}}) }}
+                        {{ form_widget(formulaire_publication.message, {'attr' : {"placeholder" : "Qu'avez-vous en tête?"}}) }}
                     </div>
                     <div>
                         <!-- Le bouton de validation, possédant l'id "feedy-new-submit" et le label "Feeder!" -->
-                        {{ form_widget(formulaire.publier, {'id' : 'feedy-new-submit', 'label' : "Feeder!"}) }}
+                        {{ form_widget(formulaire_publication.publier, {'id' : 'feedy-new-submit', 'label' : "Feeder!"}) }}
                     </div>
                 </fieldset>
                 <!-- Génération des balises restantes (token CSRF) -->
-                {{ form_rest(formulaire) }}
+                {{ form_rest(formulaire_publication) }}
                 <!-- Génération de la balise fermante </form> -->
-                {{ form_end(formulaire) }}
+                {{ form_end(formulaire_publication) }}
             {% endif %}
 
             {% for publication in publications %}
@@ -31,11 +31,12 @@
                     <div class="feedy-header">
                         <a href="">
                             <img class="avatar"
-                                 src="img/utilisateurs/anonyme.jpg"
+                                 {% set photo = (publication.auteur.nomPhotoProfil is null) ? "anonyme.jpg" :  "uploads/" ~ publication.auteur.nomPhotoProfil %}
+                                 src="{{ asset("img/utilisateurs/" ~ photo) }}"
                                  alt="avatar de l'utilisateur">
                         </a>
                         <div class="feedy-info">
-                            <span>Anonyme</span>
+                            <span>{{ publication.auteur.login }}</span>
                             <span> - </span>
                             <span>{{ publication.datePublication|date("d/m/Y") }}</span>
                             <p>{{ publication.message }}</p>

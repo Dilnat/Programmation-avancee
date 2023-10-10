@@ -24,9 +24,12 @@ class PublicationController extends AbstractController
                          EntityManagerInterface $entityManager,
                          FlashMessageHelperInterface $flashMessageHelper): Response
     {
-        $formulaire = new Publication();
+        $publication = new Publication();
+        $utilisateur = $this->getUser();
+        $publication->setAuteur($utilisateur);
+
         $form = $this->createForm(PublicationType::class,
-        $formulaire,[
+            $publication,[
             'method' => 'POST',
             'action' => $this->generateUrl('feed')
             ]);
@@ -35,7 +38,7 @@ class PublicationController extends AbstractController
         if($form->isSubmitted() && $form->isValid()){
             $this->denyAccessUnlessGranted('ROLE_USER');
             $this->addFlash("success", "Vous message a bien été publié");
-            $entityManager->persist($formulaire);
+            $entityManager->persist($publication);
             $entityManager->flush();
             return $this->redirectToRoute('feed');
         }
@@ -43,11 +46,9 @@ class PublicationController extends AbstractController
             $flashMessageHelper->addFormErrorsAsFlash($form);
         }
 
-
-
         return $this->render("/publication/feed.html.twig", [
             "publications" => $publicationRepository->findAllOrderedByDate(),
-            "formulaire" => $form
+            "formulaire_publication" => $form
         ]);
     }
 }

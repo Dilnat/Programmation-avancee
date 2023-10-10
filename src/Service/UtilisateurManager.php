@@ -33,7 +33,7 @@ class UtilisateurManager implements UtilisateurManagerInterface
             //On la déplace vers son dossier de destination
             $fichierPhotoProfil->move($this->dossier_photo_profil, $fileName);
             //On met à jour l'attribut "nomPhotoProfil" de l'utilisateur
-            $utilisateur->setNomPhotoProfil($fichierPhotoProfil);
+            $utilisateur->setNomPhotoProfil($fileName);
         }
     }
 
