@@ -7,7 +7,13 @@
                  alt="avatar de l'utilisateur">
         </a>
         <div class="feedy-info">
-            <span>{{ publication.auteur.login }}</span>
+
+            <span
+                    {% if publication.auteur.premium == true %}
+                         class="premium-login"
+                    {% endif %}
+                    >{{ publication.auteur.login }}
+            </span>
             <span> - </span>
             <span>{{ publication.datePublication|date("d/m/Y") }}</span>
             <p>{{ publication.message }}</p>
