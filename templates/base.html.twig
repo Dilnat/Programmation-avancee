@@ -9,6 +9,8 @@
 <body>
 <header>
     <link rel="stylesheet" type="text/css" href="{{ asset("css/styles.css") }}">
+    {% block script %}
+    {% endblock %}
     <div id="titre" class="center">
         <a href="{{ path('feed') }}"><span>The Feed</span></a>
         <nav>
@@ -24,8 +26,6 @@
                 <a href="{{ path('inscription') }}">Inscription</a>
                 <a href="{{ path('connexion') }}">Connexion</a>
             {% endif %}
-
-
         </nav>
     </div>
 </header>

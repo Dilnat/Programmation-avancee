@@ -11,6 +11,10 @@
             <span> - </span>
             <span>{{ publication.datePublication|date("d/m/Y") }}</span>
             <p>{{ publication.message }}</p>
+            {% if is_granted('ROLE_USER') and app.user.login == publication.auteur.login %}
+                <!-- Utilisateur connecté -->
+                <button class="delete-feedy">Supprimer</button>
+            {% endif %}
         </div>
     </div>
 </div>
