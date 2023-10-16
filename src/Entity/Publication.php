@@ -19,10 +19,16 @@ class Publication
     #[ORM\Column(type: Types::TEXT)]
     #[Assert\NotBlank]
     #[Assert\NotNull]
-    #[Assert\Length(min: 4,
+    #[Assert\Length(groups:["publication:write:premium"],
+        min: 4,
         max: 200,
         minMessage: "Il faut au moins 4 caractères!",
         maxMessage: "Il faut au maximum 200 catactères!")]
+    #[Assert\Length(groups:["publication:write:normal"],
+        min: 4,
+        max: 50,
+        minMessage: "Il faut au moins 4 caractères!",
+        maxMessage: "Il faut au maximum 50 catactères!")]
     private ?string $message = null;
 
     #[ORM\Column(type: Types::DATETIME_MUTABLE)]
@@ -77,5 +83,6 @@ class Publication
 
         return $this;
     }
+
 }
 
