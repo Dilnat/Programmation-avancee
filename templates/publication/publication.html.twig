@@ -13,7 +13,7 @@
             <p>{{ publication.message }}</p>
             {% if is_granted('ROLE_USER') and app.user.login == publication.auteur.login %}
                 <!-- Utilisateur connecté -->
-                <button class="delete-feedy">Supprimer</button>
+                <button class="delete-feedy" data-publication-id="{{ publication.id }}">Supprimer</button>
             {% endif %}
         </div>
     </div>

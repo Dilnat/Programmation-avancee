@@ -8,6 +8,7 @@ use App\Service\FlashMessageHelper;
 use App\Service\FlashMessageHelperInterface;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -51,5 +52,31 @@ class PublicationController extends AbstractController
             "formulaire_publication" => $form,
             "utilisateur" => $utilisateur
         ]);
+    }
+
+    #[IsGranted('ROLE_USER')]
+    #[Route('/feedy/{id}', name: 'deletePublication', options: ["expose" => true], methods:'DELETE')]
+    public function deletePublication(Request $request,
+                                    EntityManagerInterface $entityManager,
+                                      #[MapEntity] ?Publication $publication) : Response {
+        //Recupération de données fournies dans le payload JSON
+//        $publication = $request->get('id');
+        $utilisateur = $this->getUser();
+        if ($publication != null){
+            if($utilisateur === $publication->getAuteur()){
+                $entityManager->remove($publication);
+                $entityManager->flush();
+
+                //La publication a été supprimer
+                return new JsonResponse(null, 204);
+            }
+            else {
+                //L'utilisateur n'est pas l'auteur de la publication
+                return new JsonResponse(null, 403);
+            }
+        } else{
+            //Publication introuvable
+            return new JsonResponse(null, 404);
+        }
     }
 }

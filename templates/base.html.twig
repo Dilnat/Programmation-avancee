@@ -9,6 +9,8 @@
 <body>
 <header>
     <link rel="stylesheet" type="text/css" href="{{ asset("css/styles.css") }}">
+    <script src="{{ asset('bundles/fosjsrouting/js/router.min.js') }}"></script>
+    <script src="{{ path('fos_js_routing_js', { callback: 'fos.Router.setData' }) }}"></script>
     {% block script %}
     {% endblock %}
     <div id="titre" class="center">
